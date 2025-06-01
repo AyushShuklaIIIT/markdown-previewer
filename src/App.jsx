@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -42,6 +42,26 @@ function greet(name) {
 
   }, [markdown])
 
+  const fileInputRef = useRef();
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if(file && file.name.endsWith(".md")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setMarkdown(e.target.result);
+      };
+      reader.readAsText(file);
+    }
+    else {
+      alert("Please upload a valid .md file");
+    }
+  }
+
   const downloadMarkdown = () => {
     const blob = new Blob([markdown], { type: "text/markdown" });
     const url = URL.createObjectURL(blob);
@@ -54,7 +74,6 @@ function greet(name) {
     URL.revokeObjectURL(url);
   }
 
-
   const handleChange = (e) => {
     setMarkdown(e.target.value);
   };
@@ -63,19 +82,20 @@ function greet(name) {
     <div className="flex lg:flex-row flex-col gap-4 bg-[#0d1117] text-[#f0f6fc] w-screen h-screen p-2">
       <div
         id="textarea-outer"
-        className="flex flex-col bg-[#151b23] flex-1 border rounded-md"
+        className="flex flex-col bg-[#151b23] flex-1 border rounded-md relative"
         style={{ height: "calc(100vh - 16px)" }}
       >
         <p className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b">
           <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Editor
           </span>
-          <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download Markdown</button>
-          <span>Character count: {markdown.length}</span>
+          <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download</button>
+          <button onClick={handleUploadClick} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Upload</button>
+          <input type="file" ref={fileInputRef} accept=".md" onChange={handleFileChange} className="hidden" />
         </p>
         <textarea
           id="editor"
-          className="bg-[#0d1117] resize-none focus:outline-none p-3.5 flex-1 overflow-auto roboto-mono-textarea"
+          className="bg-[#0d1117] resize-none focus:outline-none p-3.5 pt-11 flex-1 overflow-auto roboto-mono-textarea"
           name="markdown"
           value={markdown}
           onChange={handleChange}

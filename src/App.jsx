@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -31,7 +31,6 @@ function greet(name) {
 ![Markdown Logo](https://markdown-here.com/img/icon256.png)
 `);
 
-<<<<<<< HEAD
   const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
@@ -58,8 +57,6 @@ function greet(name) {
   }
   
 
-=======
->>>>>>> 1067147318b05078de088cca90fe54dfef895b48
   const handleChange = (e) => {
     setMarkdown(e.target.value);
   };

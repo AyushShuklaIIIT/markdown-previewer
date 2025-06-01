@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"; // Theme
 
 function App() {
   const [markdown, setMarkdown] = useState(`# Welcome to the Markdown Previewer!
@@ -35,7 +33,7 @@ function greet(name) {
 
   useEffect(() => {
     const wordsArray = markdown.trim().split(/\s+/);
-    if(wordsArray[0] === "") {
+    if (wordsArray[0] === "") {
       setWordCount(0);
     }
     else {
@@ -45,7 +43,7 @@ function greet(name) {
   }, [markdown])
 
   const downloadMarkdown = () => {
-    const blob = new Blob([markdown], {type: "text/markdown"});
+    const blob = new Blob([markdown], { type: "text/markdown" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -55,7 +53,7 @@ function greet(name) {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }
-  
+
 
   const handleChange = (e) => {
     setMarkdown(e.target.value);
@@ -93,29 +91,11 @@ function greet(name) {
           <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Previewer
           </span>
+          <span>Word count: {wordCount}</span>
         </p>
         <div className="markdown-body flex-1 overflow-auto p-3.5 bg-[#0d1117]">
           <Markdown
-            remarkPlugins={[[remarkGfm, {singleTilde: false}]]}
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || "");
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={oneDark}
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                );
-              },
-            }}
+            remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           >
             {markdown}
           </Markdown>

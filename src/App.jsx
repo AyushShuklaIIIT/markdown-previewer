@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"; // Theme
 
 function App() {
   const [markdown, setMarkdown] = useState(`# Welcome to the Markdown Previewer!
@@ -16,7 +18,7 @@ Here's a [link to NASA](https://www.nasa.gov), where space exploration fuels inn
 Inline code looks like this: \`const x = 42;\`
 
 ### Code block:
-\`\`\`
+\`\`\`js
 function greet(name) {
   return \`Hello, \${name}!\`;
 }
@@ -29,6 +31,7 @@ function greet(name) {
 ![Markdown Logo](https://markdown-here.com/img/icon256.png)
 `);
 
+<<<<<<< HEAD
   const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
@@ -55,6 +58,8 @@ function greet(name) {
   }
   
 
+=======
+>>>>>>> 1067147318b05078de088cca90fe54dfef895b48
   const handleChange = (e) => {
     setMarkdown(e.target.value);
   };
@@ -63,7 +68,8 @@ function greet(name) {
     <div className="flex lg:flex-row flex-col gap-4 bg-[#0d1117] text-[#f0f6fc] w-screen h-screen p-2">
       <div
         id="textarea-outer"
-        className="flex flex-col bg-[#151b23] flex-1 border rounded-md lg:[height:calc(100vh-16px)]"
+        className="flex flex-col bg-[#151b23] flex-1 border rounded-md"
+        style={{ height: "calc(100vh - 16px)" }}
       >
         <p className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b">
           <span className="p-1 px-2 rounded-md bg-black cursor-default">
@@ -80,6 +86,7 @@ function greet(name) {
           onChange={handleChange}
         ></textarea>
       </div>
+
       <div
         id="preview"
         className="flex flex-col flex-1 bg-[#151b23] overflow-auto border rounded-md"
@@ -89,10 +96,30 @@ function greet(name) {
           <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Previewer
           </span>
-          <span>Word count: {wordCount}</span>
         </p>
         <div className="markdown-body flex-1 overflow-auto p-3.5 bg-[#0d1117]">
-          <Markdown remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
+          <Markdown
+            remarkPlugins={[[remarkGfm, {singleTilde: false}]]}
+            components={{
+              code({ node, inline, className, children, ...props }) {
+                const match = /language-(\w+)/.exec(className || "");
+                return !inline && match ? (
+                  <SyntaxHighlighter
+                    style={oneDark}
+                    language={match[1]}
+                    PreTag="div"
+                    {...props}
+                  >
+                    {String(children).replace(/\n$/, "")}
+                  </SyntaxHighlighter>
+                ) : (
+                  <code className={className} {...props}>
+                    {children}
+                  </code>
+                );
+              },
+            }}
+          >
             {markdown}
           </Markdown>
         </div>

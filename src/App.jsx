@@ -41,6 +41,7 @@ function greet(name) {
 `);
 
   const [wordCount, setWordCount] = useState(0);
+  const [expand, setExpand] = useState("expand_content");
 
   useEffect(() => {
     const wordsArray = markdown.trim().split(/\s+/);
@@ -62,6 +63,8 @@ function greet(name) {
   
 
   const fileInputRef = useRef();
+  const editorRef = useRef();
+  const previewerRef = useRef();
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -78,6 +81,17 @@ function greet(name) {
     }
     else {
       alert("Please upload a valid .md file");
+    }
+  }
+
+  const handleFullEditor = (value) => {
+    if(expand === "expand_content") {
+      setExpand("collapse_content");
+      value.current.style.display = "none";
+    }
+    else {
+      setExpand("expand_content");
+      value.current.style.display = "block";
     }
   }
 
@@ -125,14 +139,18 @@ function greet(name) {
         id="textarea-outer"
         className="flex flex-col bg-[#151b23] flex-1 border rounded-md"
         style={{ height: "calc(100vh - 16px)" }}
+        ref={editorRef}
       >
-        <p className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b relative">
+        <div className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b relative">
+        <div className="w-[95%] flex justify-between">
           <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Editor
           </span>
           <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download</button>
           <button onClick={handleUploadClick} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Upload</button>
           <input type="file" ref={fileInputRef} accept=".md" onChange={handleFileChange} className="hidden" />
+        </div>
+          <button className="cursor-pointer" onClick={() => handleFullEditor(previewerRef)}><span className="material-symbols-outlined">{expand}</span></button>
           <div className="absolute top-12 w-[95%] flex items-center justify-around backdrop-blur-sm p-1 rounded-md">
             <button onClick={() => insertMarkdown("**", "**")} className="cursor-pointer"><span className="material-symbols-outlined">format_bold</span></button>
             <button onClick={() => insertMarkdown("_", "_")} className="cursor-pointer"><span className="material-symbols-outlined">format_italic</span></button>
@@ -144,7 +162,7 @@ function greet(name) {
             <button onClick={() => insertMarkdown("> ")} className="cursor-pointer">BQ</button>
             <button onClick={() => insertMarkdown("- ")} className="cursor-pointer"><span className="material-symbols-outlined">format_list_bulleted</span></button>
           </div>
-        </p>
+        </div>
         <textarea
           id="editor"
           className="bg-[#0d1117] resize-none focus:outline-none p-3.5 pt-11 flex-1 overflow-auto roboto-mono-textarea"
@@ -159,13 +177,17 @@ function greet(name) {
         id="preview"
         className="flex flex-col flex-1 bg-[#151b23] overflow-auto border rounded-md"
         style={{ height: "calc(100vh - 16px)" }}
+        ref={previewerRef}
       >
-        <p className="h-[46px] font-bold flex items-center pl-1.5 border-b justify-between pr-5">
+        <div className="h-[46px] font-bold flex items-center pl-1.5 border-b justify-between pr-5">
+        <div className="w-[95%] flex justify-between">
           <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Previewer
           </span>
           <span>Word count: {wordCount}</span>
-        </p>
+        </div>
+        <button className="cursor-pointer" onClick={() => handleFullEditor(editorRef)}><span className="material-symbols-outlined">{expand}</span></button>
+        </div>
         <div className="markdown-body flex-1 overflow-auto p-3.5 bg-[#0d1117]">
           <Markdown
             remarkPlugins={[[remarkGfm, { singleTilde: false }]]}

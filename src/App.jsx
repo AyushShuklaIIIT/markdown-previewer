@@ -41,7 +41,7 @@ function greet(name) {
 `);
 
   const [wordCount, setWordCount] = useState(0);
-  const [expand, setExpand] = useState("expand_content");
+  const [expandedPane, setExpandedPane] = useState(null);
 
   useEffect(() => {
     const wordsArray = markdown.trim().split(/\s+/);
@@ -56,11 +56,11 @@ function greet(name) {
 
   useEffect(() => {
     const saved = localStorage.getItem("markdown");
-    if(saved) {
+    if (saved) {
       setMarkdown(saved);
     }
   }, [])
-  
+
 
   const fileInputRef = useRef();
   const editorRef = useRef();
@@ -84,15 +84,12 @@ function greet(name) {
     }
   }
 
-  const handleFullEditor = (value) => {
-    if(expand === "expand_content") {
-      setExpand("collapse_content");
-      value.current.style.display = "none";
-    }
-    else {
-      setExpand("expand_content");
-      value.current.style.display = "block";
-    }
+  const handleFullEditor = () => {
+    setExpandedPane(prev => (prev === "editor" ? null : 'editor'));
+  };
+
+  const handleFullPreviewer = () => {
+    setExpandedPane(prev => (prev === 'previewer' ? null : 'previewer'));
   }
 
   const downloadMarkdown = () => {
@@ -116,7 +113,7 @@ function greet(name) {
     const formattedText = `${prefix}${selectedText}${suffix}`;
     textarea.setRangeText(formattedText, start, end, "end");
 
-    const event = new Event('input', {bubbles: true});
+    const event = new Event('input', { bubbles: true });
     textarea.dispatchEvent(event);
   }
 
@@ -137,20 +134,21 @@ function greet(name) {
     <div className="flex lg:flex-row flex-col gap-4 bg-[#0d1117] text-[#f0f6fc] w-screen h-screen p-2">
       <div
         id="textarea-outer"
-        className="flex flex-col bg-[#151b23] flex-1 border rounded-md"
+        className={`flex flex-col bg-[#151b23] border rounded-md ${expandedPane === 'previewer' ? 'hidden' : 'flex-1'}
+        ${expandedPane === 'editor' ? 'flex-[3]' : ''}`}
         style={{ height: "calc(100vh - 16px)" }}
         ref={editorRef}
       >
         <div className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b relative">
-        <div className="w-[95%] flex justify-between">
-          <span className="p-1 px-2 rounded-md bg-black cursor-default">
-            Editor
-          </span>
-          <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download</button>
-          <button onClick={handleUploadClick} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Upload</button>
-          <input type="file" ref={fileInputRef} accept=".md" onChange={handleFileChange} className="hidden" />
-        </div>
-          <button className="cursor-pointer" onClick={() => handleFullEditor(previewerRef)}><span className="material-symbols-outlined">{expand}</span></button>
+          <div className="w-[95%] flex justify-between">
+            <span className="p-1 px-2 rounded-md bg-black cursor-default">
+              Editor
+            </span>
+            <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download</button>
+            <button onClick={handleUploadClick} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Upload</button>
+            <input type="file" ref={fileInputRef} accept=".md" onChange={handleFileChange} className="hidden" />
+          </div>
+          <button className="cursor-pointer" onClick={handleFullEditor}><span className="material-symbols-outlined">{expandedPane === 'editor' ? 'collapse_content' : 'expand_content'}</span></button>
           <div className="absolute top-12 w-[95%] flex items-center justify-around backdrop-blur-sm p-1 rounded-md">
             <button onClick={() => insertMarkdown("**", "**")} className="cursor-pointer"><span className="material-symbols-outlined">format_bold</span></button>
             <button onClick={() => insertMarkdown("_", "_")} className="cursor-pointer"><span className="material-symbols-outlined">format_italic</span></button>
@@ -175,18 +173,19 @@ function greet(name) {
 
       <div
         id="preview"
-        className="flex flex-col flex-1 bg-[#151b23] overflow-auto border rounded-md"
+        className={`flex flex-col bg-[#151b23] overflow-auto border rounded-md ${expandedPane === 'editor' ? 'hidden': 'flex-1'}
+        ${expandedPane === 'previewer' ? 'flex-[3]' : ''}`}
         style={{ height: "calc(100vh - 16px)" }}
         ref={previewerRef}
       >
         <div className="h-[46px] font-bold flex items-center pl-1.5 border-b justify-between pr-5">
-        <div className="w-[95%] flex justify-between">
-          <span className="p-1 px-2 rounded-md bg-black cursor-default">
-            Previewer
-          </span>
-          <span>Word count: {wordCount}</span>
-        </div>
-        <button className="cursor-pointer" onClick={() => handleFullEditor(editorRef)}><span className="material-symbols-outlined">{expand}</span></button>
+          <div className="w-[95%] flex justify-between">
+            <span className="p-1 px-2 rounded-md bg-black cursor-default">
+              Previewer
+            </span>
+            <span>Word count: {wordCount}</span>
+          </div>
+          <button className="cursor-pointer" onClick={handleFullPreviewer}><span className="material-symbols-outlined">{expandedPane === 'previewer' ? 'collapse_content' : 'expand_content'}</span></button>
         </div>
         <div className="markdown-body flex-1 overflow-auto p-3.5 bg-[#0d1117]">
           <Markdown

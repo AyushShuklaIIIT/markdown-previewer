@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+.roboto-mono-textarea {
+  font-family: "Roboto Mono", monospace;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.markdown-body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.markdown-body h1 {
+  @apply text-4xl font-bold mt-6 mb-6 border-b-1 pb-4 border-[#2f353d];
+}
+
+.markdown-body h2 {
+  @apply text-2xl font-bold mt-5 mb-5 pb-3 border-b-1 border-[#2f353d];
+}
+
+.markdown-body h3 {
+  @apply text-xl font-bold mt-5 mb-5 pb-2.5 border-b-1 border-[#2f353d];
+}
+
+.markdown-body h4 {
+  @apply text-base font-bold mt-4 mb-4 pb-2 border-b-1 border-[#2f353d];
+}
+
+.markdown-body h5 {
+  @apply text-sm font-bold mt-3.5 mb-3.5 pb-1.5 border-b-1 border-[#2f353d];
+}
+
+.markdown-body h6 {
+  @apply text-xs font-bold mt-3 mb-3 pb-1 border-b-1 border-[#2f353d];
+}
+
+.markdown-body p {
+  @apply mt-4 mb-4 text-base font-normal;
+}
+
+.markdown-body ul {
+  @apply list-disc pl-10 mt-4 ml-10 mb-4 font-normal text-base;
+}
+
+.markdown-body ol {
+  @apply list-decimal pl-10 mt-4 ml-10 mb-4 font-normal text-base;
+}
+
+.markdown-body blockquote {
+  @apply border-l-4 border-gray-600 italic text-gray-400 text-base font-normal mt-4 mb-4 ml-10 mr-10 p-0 pl-2.5;
+}
+
+.markdown-body code {
+  @apply bg-[#1e242a] p-1 inline rounded-lg text-base font-normal font-mono;
+}
+
+.markdown-body pre {
+  @apply overflow-x-auto text-base font-normal font-mono mt-4 mb-4 p-2 block whitespace-pre overflow-visible w-full bg-[#1e242a] rounded-lg;
+}
+
+.markdown-body a {
+  @apply text-blue-600 underline cursor-pointer text-base font-normal inline visited:text-purple-900;
+}
+
+.markdown-body img {
+  @apply inline w-auto h-auto border-none align-baseline;
+}

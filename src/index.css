@@ -56,7 +56,7 @@
 }
 
 .markdown-body pre {
-  @apply overflow-x-auto text-base font-normal font-mono mt-4 mb-4 p-2 block whitespace-pre overflow-visible w-full rounded-lg;
+  @apply overflow-x-auto text-base font-normal font-mono mt-4 mb-4 p-2 block whitespace-pre overflow-visible w-full rounded-lg bg-[#1e242a];
 }
 
 .markdown-body a {

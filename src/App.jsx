@@ -1,6 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+
+const debounce = (func, delay) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  }
+}
 
 function App() {
   const [markdown, setMarkdown] = useState(`# Welcome to the Markdown Previewer!
@@ -42,6 +53,14 @@ function greet(name) {
 
   }, [markdown])
 
+  useEffect(() => {
+    const saved = localStorage.getItem("markdown");
+    if(saved) {
+      setMarkdown(saved);
+    }
+  }, [])
+  
+
   const fileInputRef = useRef();
 
   const handleUploadClick = () => {
@@ -50,7 +69,7 @@ function greet(name) {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if(file && file.name.endsWith(".md")) {
+    if (file && file.name.endsWith(".md")) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setMarkdown(e.target.result);
@@ -74,32 +93,66 @@ function greet(name) {
     URL.revokeObjectURL(url);
   }
 
+  const insertMarkdown = (prefix, suffix = "") => {
+    const textarea = document.getElementById("editor");
+    textarea.focus();
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = textarea.value.substring(start, end);
+    const formattedText = `${prefix}${selectedText}${suffix}`;
+    textarea.setRangeText(formattedText, start, end, "end");
+
+    const event = new Event('input', {bubbles: true});
+    textarea.dispatchEvent(event);
+  }
+
+  const saveToLocalStorage = useCallback(
+    debounce((value) => {
+      localStorage.setItem("markdown", value);
+    }, 300),
+    []
+  );
+
   const handleChange = (e) => {
-    setMarkdown(e.target.value);
+    const value = e.target.value;
+    setMarkdown(value);
+    saveToLocalStorage(value);
   };
 
   return (
     <div className="flex lg:flex-row flex-col gap-4 bg-[#0d1117] text-[#f0f6fc] w-screen h-screen p-2">
       <div
         id="textarea-outer"
-        className="flex flex-col bg-[#151b23] flex-1 border rounded-md relative"
+        className="flex flex-col bg-[#151b23] flex-1 border rounded-md"
         style={{ height: "calc(100vh - 16px)" }}
       >
-        <p className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b">
+        <p className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b relative">
           <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Editor
           </span>
           <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download</button>
           <button onClick={handleUploadClick} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Upload</button>
           <input type="file" ref={fileInputRef} accept=".md" onChange={handleFileChange} className="hidden" />
+          <div className="absolute top-12 w-[95%] flex items-center justify-around backdrop-blur-sm p-1 rounded-md">
+            <button onClick={() => insertMarkdown("**", "**")} className="cursor-pointer"><span className="material-symbols-outlined">format_bold</span></button>
+            <button onClick={() => insertMarkdown("_", "_")} className="cursor-pointer"><span className="material-symbols-outlined">format_italic</span></button>
+            <button onClick={() => insertMarkdown("`", "`")} className="cursor-pointer"><span className="material-symbols-outlined">code</span></button>
+            <button onClick={() => insertMarkdown("\n```\n", "\n```")} className="cursor-pointer"><span className="material-symbols-outlined">code_blocks</span></button>
+            <button onClick={() => insertMarkdown("[", "](https://)")} className="cursor-pointer">
+              <span className="material-symbols-outlined">link</span>
+            </button>
+            <button onClick={() => insertMarkdown("> ")} className="cursor-pointer">BQ</button>
+            <button onClick={() => insertMarkdown("- ")} className="cursor-pointer"><span className="material-symbols-outlined">format_list_bulleted</span></button>
+          </div>
         </p>
         <textarea
           id="editor"
           className="bg-[#0d1117] resize-none focus:outline-none p-3.5 pt-11 flex-1 overflow-auto roboto-mono-textarea"
           name="markdown"
           value={markdown}
-          onChange={handleChange}
+          onInput={handleChange}
         ></textarea>
+        <p className="px-1 hidden md:block">Tip: To render text on the next line, use double space after the text before pressing 'Enter'</p>
       </div>
 
       <div

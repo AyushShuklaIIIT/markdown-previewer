@@ -41,6 +41,18 @@ function greet(name) {
     }
 
   }, [markdown])
+
+  const downloadMarkdown = () => {
+    const blob = new Blob([markdown], {type: "text/markdown"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "markdown-preview.md";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
   
 
   const handleChange = (e) => {
@@ -54,9 +66,10 @@ function greet(name) {
         className="flex flex-col bg-[#151b23] flex-1 border rounded-md lg:[height:calc(100vh-16px)]"
       >
         <p className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b">
-          <span className="p-1 px-2 rounded-md border bg-black cursor-default">
+          <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Editor
           </span>
+          <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download Markdown</button>
           <span>Character count: {markdown.length}</span>
         </p>
         <textarea
@@ -73,7 +86,7 @@ function greet(name) {
         style={{ height: "calc(100vh - 16px)" }}
       >
         <p className="h-[46px] font-bold flex items-center pl-1.5 border-b justify-between pr-5">
-          <span className="p-1 px-2 rounded-md border bg-black cursor-default">
+          <span className="p-1 px-2 rounded-md bg-black cursor-default">
             Previewer
           </span>
           <span>Word count: {wordCount}</span>

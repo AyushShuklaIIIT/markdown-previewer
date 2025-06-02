@@ -20,19 +20,19 @@
 }
 
 .markdown-body h3 {
-  @apply text-xl font-bold mt-5 mb-5 pb-2.5 border-b-1 border-[#2f353d];
+  @apply text-xl font-bold mt-5 mb-5 pb-2.5;
 }
 
 .markdown-body h4 {
-  @apply text-base font-bold mt-4 mb-4 pb-2 border-b-1 border-[#2f353d];
+  @apply text-base font-bold mt-4 mb-4 pb-2;
 }
 
 .markdown-body h5 {
-  @apply text-sm font-bold mt-3.5 mb-3.5 pb-1.5 border-b-1 border-[#2f353d];
+  @apply text-sm font-bold mt-3.5 mb-3.5 pb-1.5;
 }
 
 .markdown-body h6 {
-  @apply text-xs font-bold mt-3 mb-3 pb-1 border-b-1 border-[#2f353d];
+  @apply text-xs font-bold mt-3 mb-3 pb-1;
 }
 
 .markdown-body p {
@@ -47,20 +47,24 @@
   @apply list-decimal pl-2.5 mt-4 ml-10 mb-4 font-normal text-base;
 }
 
+.markdown-body ul li, .markdown-body ol li {
+  @apply m-0 mb-2
+}
+
 .markdown-body blockquote {
   @apply border-l-4 border-gray-600 italic text-gray-400 text-base font-normal mt-4 mb-4 ml-10 mr-10 p-0 pl-2.5;
 }
 
 .markdown-body code {
-  @apply bg-[#1e242a] p-1 inline rounded-lg text-base font-normal font-mono;
+  @apply bg-[#282c34] p-1 inline rounded-lg text-base font-normal font-mono;
 }
 
 .markdown-body pre {
-  @apply overflow-x-auto text-base font-normal font-mono mt-4 mb-4 block whitespace-pre overflow-visible w-full rounded-lg
+  @apply overflow-x-auto text-base font-normal font-mono mt-4 mb-4 block whitespace-pre overflow-visible w-full bg-[#282c34];
 }
 
 .markdown-body a {
-  @apply text-blue-600 underline cursor-pointer text-base font-normal inline visited:text-purple-900;
+  @apply text-[#4486c3] underline cursor-pointer text-base font-normal inline visited:text-purple-900;
 }
 
 .markdown-body img {
@@ -97,4 +101,8 @@
 
 .markdown-body td {
   @apply border border-gray-300 px-4 py-2
+}
+
+.markdown-body hr {
+  @apply border-none h-[5px] bg-[#2f353d] my-8
 }

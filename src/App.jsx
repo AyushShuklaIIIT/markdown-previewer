@@ -15,48 +15,156 @@ const debounce = (func, delay) => {
 };
 
 function App() {
-  const [markdown, setMarkdown] = useState(`# Welcome to the Markdown Previewer!
+  const [markdown, setMarkdown] = useState(`# 📝 Markdown Previewer
 
-## This is a subheading (H2)
+A modern, responsive **Markdown Editor + Live Previewer** built with React.
 
-#### This is a smaller subheading (H4) here to remind you that just pressing 'Enter' does not take you to the next line in markdown. You need 2 white spaces after the text before you press 'Enter'
+Write Markdown, see the preview instantly, expand editor/previewer panes, and even save your work — all inside a sleek and user-friendly interface.
 
-##### Unless the line ends naturally. (Spoken by: Yet smaller subheading)
+---
 
-**This text is bolded.**  
-_This text is italic._  
-**_This text is both bolded and italic_**
+## ✨ Features
 
-> This is a blockquote — useful for highlighting key ideas.
+- 🪄 **Live Markdown Preview** using [\`react-markdown\`](https://github.com/remarkjs/react-markdown) and [\`remark-gfm\`](https://github.com/remarkjs/remark-gfm)
+- 🔁 **Pane Expansion** - Focus mode for editor or preview
+- 💾 **Auto Save to Local Storage** (with debounce)
+- 📂 **Upload \`.md\` Files** directly into the editor
+- 📥 **Download Markdown** to your system
+- 🧠 **Word Count** Tracker
+- 🧰 **Toolbar Formatting Shortcuts**  
+  (Try bold, italic, headings, blockquotes, code, etc!)
 
-Here's a [link to NASA](https://www.nasa.gov), where space exploration fuels innovation.
+---
 
-Inline code looks like this: \`const x = 42;\`
+## 🚀 Getting Started
 
-### Code block:
-\`\`\`js
-function greet(name) {
-  return \`Hello, \${name}!\`;
-}
+\`\`\`bash
+# Clone the repo
+git clone https://github.com/AyushShuklaIIIT/markdown-previewer.git
+cd markdown-previewer
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 \`\`\`
 
-Even tables:
-Wild Header | Crazy Header | Another Header?
------------- | ------------- | -------------
-Your content can | be here, and it | can be here....
-And here. | Okay. | I think we get it.
+---
 
-1. List item one
-1. List item two
-1. List item three
+## 🧪 Tech Stack
 
-- And of course there are lists.
-    - With different indentation levels.
-        - That look like this.
+- React
+- Tailwind CSS
+- react-markdown
+- remark-gfm
+- LocalStorage
 
-And, embedded images: 
+---
 
-![Markdown Logo](https://markdown-here.com/img/icon256.png)
+## 🔤 Text Styling
+
+### Headings
+
+# H1  
+## H2  
+### H3  
+#### H4  
+##### H5  
+###### H6
+
+### Emphasis
+
+- *Italic*  
+- **Bold**  
+- ***Bold & Italic***  
+- ~~Strikethrough~~
+
+### Quotes
+
+> This is a blockquote.  
+> Great for showing citations or notes.
+
+---
+
+## 🔢 Lists
+
+### Ordered
+
+1. First item  
+2. Second item  
+3. Third item
+
+### Unordered
+
+- Bullet 1  
+- Bullet 2  
+  - Nested bullet  
+  - Another one
+
+---
+
+## 🔗 Links
+
+[Visit my GitHub](https://github.com/AyushShuklaIIIT)
+
+---
+
+## 🔤 Code
+
+### Inline Code
+
+Here’s some inline code: \`const x = 42;\`
+
+### Code Block
+
+\`\`\`javascript
+function greet(name) {
+  return \`Hello, \${name}! 👋\`;
+}
+console.log(greet("Markdown World"));
+\`\`\`
+
+---
+
+## 📊 Tables
+
+| Feature         | Status  | Notes                      |
+|-----------------|---------|----------------------------|
+| Live Preview    | ✅      | Real-time updates          |
+| Upload \`.md\`    | ✅      | Drag-and-drop supported    |
+| Export Markdown | ✅      | Saves to \`.md\` file        |
+| Word Count      | ✅      | Updates as you type        |
+| Dark Mode       | 🚧      | Coming soon!               |
+
+---
+
+## 📦 Future Plans
+
+- Real-time collaboration using Firebase or WebSockets
+- Dark/light mode toggle 🌗
+- Export to HTML or PDF
+- Spellcheck & Markdown linting
+
+---
+
+## 🙋‍♂️ Author
+
+**Ayush Shukla**  
+Made with 💙 and caffeine.
+
+GitHub: [@AyushShuklaIIIT](https://github.com/AyushShuklaIIIT)
+
+---
+
+## 🛡️ License
+
+MIT License.  
+Use it, fork it, improve it — just don't forget to give credit 😊
+
+---
+
+🧪 *Try editing this document! Everything updates live in the preview pane.*
 `);
 
   const [wordCount, setWordCount] = useState(0);
@@ -237,7 +345,7 @@ And, embedded images:
         </div>
         <textarea
           id="editor"
-          className="bg-[#0d1117] resize-none focus:outline-none p-3.5 pt-11 flex-1 overflow-auto roboto-mono-textarea"
+          className="bg-[#0d1117] resize-none focus:outline-none p-3.5 pt-11 flex-1 overflow-auto roboto-mono-textarea text-sm"
           name="markdown"
           value={markdown}
           onInput={handleChange}

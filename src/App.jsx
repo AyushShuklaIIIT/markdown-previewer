@@ -18,7 +18,13 @@ function App() {
 
 ## This is a subheading (H2)
 
-**This text is bolded.**
+#### This is a smaller subheading (H4) here to remind you that just pressing 'Enter' does not take you to the next line in markdown. You need 2 white spaces after the text before you press 'Enter'
+
+##### Unless the line ends naturally. (Spoken by: Yet smaller subheading)
+
+**This text is bolded.**  
+_This text is italic._  
+**_This text is both bolded and italic_**
 
 > This is a blockquote — useful for highlighting key ideas.
 
@@ -33,9 +39,21 @@ function greet(name) {
 }
 \`\`\`
 
-- List item one
-- List item two
-- List item three
+Even tables:
+Wild Header | Crazy Header | Another Header?
+------------ | ------------- | -------------
+Your content can | be here, and it | can be here....
+And here. | Okay. | I think we get it.
+
+1. List item one
+1. List item two
+1. List item three
+
+- And of course there are lists.
+    - With different indentation levels.
+        - That look like this.
+
+And, embedded images: 
 
 ![Markdown Logo](https://markdown-here.com/img/icon256.png)
 `);
@@ -72,7 +90,7 @@ function greet(name) {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.name.endsWith(".md")) {
+    if (file?.name?.endsWith(".md")) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setMarkdown(e.target.result);
@@ -140,7 +158,7 @@ function greet(name) {
         ref={editorRef}
       >
         <div className="h-[46px] font-bold flex items-center justify-between px-1.5 pr-5 border-b relative">
-          <div className="w-[95%] flex justify-between">
+          <div className="w-[90%] flex justify-between">
             <span className="p-1 px-2 rounded-md bg-black cursor-default">
               Editor
             </span>
@@ -179,7 +197,7 @@ function greet(name) {
         ref={previewerRef}
       >
         <div className="h-[46px] font-bold flex items-center pl-1.5 border-b justify-between pr-5">
-          <div className="w-[95%] flex justify-between">
+          <div className="w-[90%] flex justify-between">
             <span className="p-1 px-2 rounded-md bg-black cursor-default">
               Previewer
             </span>

@@ -40,11 +40,11 @@
 }
 
 .markdown-body ul {
-  @apply list-disc pl-10 mt-4 ml-10 mb-4 font-normal text-base;
+  @apply list-disc pl-2.5 mt-4 ml-10 mb-4 font-normal text-base;
 }
 
 .markdown-body ol {
-  @apply list-decimal pl-10 mt-4 ml-10 mb-4 font-normal text-base;
+  @apply list-decimal pl-2.5 mt-4 ml-10 mb-4 font-normal text-base;
 }
 
 .markdown-body blockquote {
@@ -65,4 +65,36 @@
 
 .markdown-body img {
   @apply inline w-auto h-auto border-none align-baseline;
+}
+
+.markdown-body table {
+  @apply table-auto border-collapse w-full
+}
+
+.markdown-body caption {
+  @apply table-caption text-center caption-top text-base
+}
+
+.markdown-body thead {
+  @apply table-header-group text-base
+}
+
+.markdown-body tbody {
+  @apply table-row-group text-base
+}
+
+.markdown-body tfoot {
+  @apply table-footer-group text-base
+}
+
+.markdown-body tr {
+  @apply table-row text-base
+}
+
+.markdown-body th {
+  @apply border border-gray-300 bg-[#151b23] px-4 py-2 text-left
+}
+
+.markdown-body td {
+  @apply border border-gray-300 px-4 py-2
 }

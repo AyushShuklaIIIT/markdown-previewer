@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -10,8 +9,8 @@ const debounce = (func, delay) => {
     timer = setTimeout(() => {
       func(...args);
     }, delay);
-  }
-}
+  };
+};
 
 function App() {
   const [markdown, setMarkdown] = useState(`# Welcome to the Markdown Previewer!
@@ -65,20 +64,17 @@ And, embedded images:
     const wordsArray = markdown.trim().split(/\s+/);
     if (wordsArray[0] === "") {
       setWordCount(0);
-    }
-    else {
+    } else {
       setWordCount(wordsArray.length);
     }
-
-  }, [markdown])
+  }, [markdown]);
 
   useEffect(() => {
     const saved = localStorage.getItem("markdown");
     if (saved) {
       setMarkdown(saved);
     }
-  }, [])
-
+  }, []);
 
   const fileInputRef = useRef();
   const editorRef = useRef();
@@ -86,7 +82,7 @@ And, embedded images:
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
-  }
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -96,19 +92,18 @@ And, embedded images:
         setMarkdown(e.target.result);
       };
       reader.readAsText(file);
-    }
-    else {
+    } else {
       alert("Please upload a valid .md file");
     }
-  }
+  };
 
   const handleFullEditor = () => {
-    setExpandedPane(prev => (prev === "editor" ? null : 'editor'));
+    setExpandedPane((prev) => (prev === "editor" ? null : "editor"));
   };
 
   const handleFullPreviewer = () => {
-    setExpandedPane(prev => (prev === 'previewer' ? null : 'previewer'));
-  }
+    setExpandedPane((prev) => (prev === "previewer" ? null : "previewer"));
+  };
 
   const downloadMarkdown = () => {
     const blob = new Blob([markdown], { type: "text/markdown" });
@@ -120,7 +115,7 @@ And, embedded images:
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-  }
+  };
 
   const insertMarkdown = (prefix, suffix = "") => {
     const textarea = document.getElementById("editor");
@@ -131,9 +126,9 @@ And, embedded images:
     const formattedText = `${prefix}${selectedText}${suffix}`;
     textarea.setRangeText(formattedText, start, end, "end");
 
-    const event = new Event('input', { bubbles: true });
+    const event = new Event("input", { bubbles: true });
     textarea.dispatchEvent(event);
-  }
+  };
 
   const saveToLocalStorage = useCallback(
     debounce((value) => {
@@ -152,8 +147,10 @@ And, embedded images:
     <div className="flex lg:flex-row flex-col gap-4 bg-[#0d1117] text-[#f0f6fc] w-screen h-screen p-2">
       <div
         id="textarea-outer"
-        className={`flex flex-col bg-[#151b23] border rounded-md ${expandedPane === 'previewer' ? 'hidden' : 'flex-1'}
-        ${expandedPane === 'editor' ? 'flex-[3]' : ''}`}
+        className={`flex flex-col bg-[#151b23] border rounded-md ${
+          expandedPane === "previewer" ? "hidden" : "flex-1"
+        }
+        ${expandedPane === "editor" ? "flex-[3]" : ""}`}
         style={{ height: "calc(100vh - 16px)" }}
         ref={editorRef}
       >
@@ -162,21 +159,78 @@ And, embedded images:
             <span className="p-1 px-2 rounded-md bg-black cursor-default">
               Editor
             </span>
-            <button onClick={downloadMarkdown} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Download</button>
-            <button onClick={handleUploadClick} className="p-1 px-2 rounded-md border bg-black cursor-pointer">Upload</button>
-            <input type="file" ref={fileInputRef} accept=".md" onChange={handleFileChange} className="hidden" />
+            <button
+              onClick={downloadMarkdown}
+              className="p-1 px-2 rounded-md border bg-black cursor-pointer"
+            >
+              Download
+            </button>
+            <button
+              onClick={handleUploadClick}
+              className="p-1 px-2 rounded-md border bg-black cursor-pointer"
+            >
+              Upload
+            </button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept=".md"
+              onChange={handleFileChange}
+              className="hidden"
+            />
           </div>
-          <button className="cursor-pointer" onClick={handleFullEditor}><span className="material-symbols-outlined">{expandedPane === 'editor' ? 'collapse_content' : 'expand_content'}</span></button>
+          <button className="cursor-pointer" onClick={handleFullEditor}>
+            <span className="material-symbols-outlined">
+              {expandedPane === "editor"
+                ? "collapse_content"
+                : "expand_content"}
+            </span>
+          </button>
           <div className="absolute top-12 w-[95%] flex items-center justify-around backdrop-blur-sm p-1 rounded-md">
-            <button onClick={() => insertMarkdown("**", "**")} className="cursor-pointer"><span className="material-symbols-outlined">format_bold</span></button>
-            <button onClick={() => insertMarkdown("_", "_")} className="cursor-pointer"><span className="material-symbols-outlined">format_italic</span></button>
-            <button onClick={() => insertMarkdown("`", "`")} className="cursor-pointer"><span className="material-symbols-outlined">code</span></button>
-            <button onClick={() => insertMarkdown("\n```\n", "\n```")} className="cursor-pointer"><span className="material-symbols-outlined">code_blocks</span></button>
-            <button onClick={() => insertMarkdown("[", "](https://)")} className="cursor-pointer">
+            <button
+              onClick={() => insertMarkdown("**", "**")}
+              className="cursor-pointer"
+            >
+              <span className="material-symbols-outlined">format_bold</span>
+            </button>
+            <button
+              onClick={() => insertMarkdown("_", "_")}
+              className="cursor-pointer"
+            >
+              <span className="material-symbols-outlined">format_italic</span>
+            </button>
+            <button
+              onClick={() => insertMarkdown("`", "`")}
+              className="cursor-pointer"
+            >
+              <span className="material-symbols-outlined">code</span>
+            </button>
+            <button
+              onClick={() => insertMarkdown("\n```\n", "\n```")}
+              className="cursor-pointer"
+            >
+              <span className="material-symbols-outlined">code_blocks</span>
+            </button>
+            <button
+              onClick={() => insertMarkdown("[", "](https://)")}
+              className="cursor-pointer"
+            >
               <span className="material-symbols-outlined">link</span>
             </button>
-            <button onClick={() => insertMarkdown("> ")} className="cursor-pointer">BQ</button>
-            <button onClick={() => insertMarkdown("- ")} className="cursor-pointer"><span className="material-symbols-outlined">format_list_bulleted</span></button>
+            <button
+              onClick={() => insertMarkdown("> ")}
+              className="cursor-pointer"
+            >
+              BQ
+            </button>
+            <button
+              onClick={() => insertMarkdown("- ")}
+              className="cursor-pointer"
+            >
+              <span className="material-symbols-outlined">
+                format_list_bulleted
+              </span>
+            </button>
           </div>
         </div>
         <textarea
@@ -186,13 +240,18 @@ And, embedded images:
           value={markdown}
           onInput={handleChange}
         ></textarea>
-        <p className="px-1 hidden md:block">Tip: To render text on the next line, use double space after the text before pressing 'Enter'</p>
+        <p className="px-1 hidden md:block">
+          Tip: To render text on the next line, use double space after the text
+          before pressing 'Enter'
+        </p>
       </div>
 
       <div
         id="preview"
-        className={`flex flex-col bg-[#151b23] overflow-auto border rounded-md ${expandedPane === 'editor' ? 'hidden': 'flex-1'}
-        ${expandedPane === 'previewer' ? 'flex-[3]' : ''}`}
+        className={`flex flex-col bg-[#151b23] overflow-auto border rounded-md ${
+          expandedPane === "editor" ? "hidden" : "flex-1"
+        }
+        ${expandedPane === "previewer" ? "flex-[3]" : ""}`}
         style={{ height: "calc(100vh - 16px)" }}
         ref={previewerRef}
       >
@@ -203,12 +262,16 @@ And, embedded images:
             </span>
             <span>Word count: {wordCount}</span>
           </div>
-          <button className="cursor-pointer" onClick={handleFullPreviewer}><span className="material-symbols-outlined">{expandedPane === 'previewer' ? 'collapse_content' : 'expand_content'}</span></button>
+          <button className="cursor-pointer" onClick={handleFullPreviewer}>
+            <span className="material-symbols-outlined">
+              {expandedPane === "previewer"
+                ? "collapse_content"
+                : "expand_content"}
+            </span>
+          </button>
         </div>
         <div className="markdown-body flex-1 overflow-auto p-3.5 bg-[#0d1117]">
-          <Markdown
-            remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
-          >
+          <Markdown remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
             {markdown}
           </Markdown>
         </div>

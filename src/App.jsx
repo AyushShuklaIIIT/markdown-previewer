@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const debounce = (func, delay) => {
   let timer;
@@ -271,7 +273,28 @@ And, embedded images:
           </button>
         </div>
         <div className="markdown-body flex-1 overflow-auto p-3.5 bg-[#0d1117]">
-          <Markdown remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
+          <Markdown
+            remarkPlugins={[[remarkGfm, {singleTilde: false}]]}
+            components={{
+              code({ inline, className, children, ...props }) {
+                const match = /language-(\w+)/.exec(className || "");
+                return !inline && match ? (
+                  <SyntaxHighlighter
+                    style={oneDark}
+                    language={match[1]}
+                    PreTag="div"
+                    {...props}
+                  >
+                    {String(children).replace(/\n$/, "")}
+                  </SyntaxHighlighter>
+                ) : (
+                  <code className={className} {...props}>
+                    {children}
+                  </code>
+                );
+              },
+            }}
+          >
             {markdown}
           </Markdown>
         </div>

@@ -1,12 +1,62 @@
-# React + Vite
+# 📝 Markdown Previewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive **Markdown Editor + Live Previewer** built with React.
 
-Currently, two official plugins are available:
+This project allows you to write Markdown, preview it in real-time, expand/collapse panes, and save your work — all in a sleek, user-friendly interface.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🪄 **Live Markdown Preview** using [`react-markdown`](https://github.com/remarkjs/react-markdown) and [`remark-gfm`](https://github.com/remarkjs/remark-gfm)
+- 🔁 **Pane Expansion** – Expand either the editor or previewer to focus on one pane at a time
+- 💾 **Auto Save to Local Storage** with a debounce delay
+- 📂 **Upload `.md` Files** directly into the editor
+- 📥 **Download Markdown** to your local system
+- 🧠 **Word Count** Tracker in real-time
+- 🧰 **Formatting Toolbar** – Bold, Italic, Code, Links, Blockquotes, Lists, etc.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/AyushShuklaIIIT/markdown-previewer.git
+cd markdown-previewer
+```
+### 2. Install dependencies
+
+```bash
+npm install
+```
+### 3. Start the development server
+```bash
+npm run dev
+```
+---
+## 🧪 Tech Stack
+- React
+- Tailwind CSS (for layout and styling)
+- react-markdown
+- remark-gfm
+- LocalStorage (for persistence)
+
+---
+
+## 📦 Future Improvements
+- Real-time collaborative editing using **Firebase** or **WebSockets**
+- Dark/light mode toggle
+- Export to HTML or PDF
+- Markdown linting & preview errors
+
+---
+
+## 🧑‍💻 Author
+Ayush Shukla
+Made with 💙 and caffeine.
+
+---
+## 🛡️ License
+MIT License. Feel free to use, modify, and share!
